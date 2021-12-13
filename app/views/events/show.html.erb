@@ -1,0 +1,4 @@
+<h1><%= @event.name %></h1>
+<p>Date: <%= @event.date %></p>
+<p><%= @event.body %></p>
+<%= link_to 'Join', enrollment_path(event_id: @event.id, user_id: current_user.id), method: :post %>
