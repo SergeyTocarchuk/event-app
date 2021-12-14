@@ -3,10 +3,9 @@ class EnrollmentsController < ApplicationController
 
   def create
     event = Event.find(params[:event_id])
-    user = current_user
-    enrollment = Enrollment.new(event_id: event.id, user_id: user.id)
+    enrollment = Enrollment.new(event_id: event.id, user_id: current_user.id)
     if enrollment.save
-      redirect_to event_path(event)
+      redirect_to root_path
     else
       flash[:alert] = 'something went wrong...'
     end
@@ -14,10 +13,19 @@ class EnrollmentsController < ApplicationController
 
   def update
     event = Event.find(params[:event_id])
-    user = User.find(current_user.id)
-    Enrollment.create(enrollment_params)
-    flash[:notice] = 'You joined the event!'
+    enrollment = Enrollment.where(event_id: event.id, user_id: current_user.id)
+    if enrollment.exists?
+      enrollment.first.id.destroy
+    end
     redirect_to event_path(event)
+  end
+
+  def destroy
+    enrollment = Enrollment.find(params[:id])
+    enrollment.destroy
+    flash.now[:success] = 'You cancelled your enrollment'
+
+    redirect_to root_path
   end
 
   private

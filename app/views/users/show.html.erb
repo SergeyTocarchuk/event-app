@@ -1,2 +1,35 @@
-<h1>User#show</h1>
-<p>Find me in app/views/user/show.html.erb</p>
+<div class="container">
+  <div class="column">
+    <h1>My Enrollments</h1>
+    <% current_user.attended_events.each do |event| %>
+      <div class="card">
+        <h4><%= event.name %></h4>
+        <p>Date: <%= event.date %></p>
+        <p><%= event.body %></p>
+        <div class="btn-unjoin">
+          <%= link_to 'Unjoin', enrollment_path, 
+                                method: :patch, 
+                                class: "btn", 
+                                data: { confirm: "Are you sure?" } %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="column">
+    <h1>My Events</h1>
+    <%= link_to "Create Event", new_event_path %>
+    <% current_user.events.each do |event| %>
+      <div class="card">
+        <h4><%= event.name %></h4>
+        <p>Date: <%= event.date %></p>
+        <p><%= event.body %></p>
+        <div class="buttons">
+          <%= link_to 'Edit', edit_event_path(event.id), class: "btn" %>
+          <%= link_to 'Delete', event_path(event.id), 
+                                method: :delete,
+                                class: "btn" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

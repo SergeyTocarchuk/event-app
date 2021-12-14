@@ -16,6 +16,11 @@
 
     <% if user_signed_in? %>
       <%= link_to "Events", root_path %>
+      <% User.all.each do |user| %>
+        <% if user.id == current_user.id %>
+          <%= link_to "My Enrollments", user_path(user) %>
+        <% end %>
+      <% end %>
       <%= link_to "Sign out", destroy_user_session_path, method: :delete %>
     <% else %>
       <%= link_to "Sign in", user_session_path %>
