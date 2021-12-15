@@ -1,14 +1,14 @@
 <div class="container">
   <div class="column">
     <h1>My Enrollments</h1>
-    <% current_user.attended_events.each do |event| %>
+    <% current_user.enrollments.each do |enrollment| %>
       <div class="card">
-        <h4><%= event.name %></h4>
-        <p>Date: <%= event.date %></p>
-        <p><%= event.body %></p>
+        <h4><%= enrollment.event.name %></h4>
+        <p>Date: <%= enrollment.event.date %></p>
+        <p><%= enrollment.event.body %></p>
         <div class="btn-unjoin">
-          <%= link_to 'Unjoin', enrollment_path, 
-                                method: :patch, 
+          <%= link_to 'Unjoin', enrollment_path(enrollment), 
+                                method: :delete, 
                                 class: "btn", 
                                 data: { confirm: "Are you sure?" } %>
         </div>
@@ -18,7 +18,7 @@
   <div class="column">
     <h1>My Events</h1>
     <%= link_to "Create Event", new_event_path %>
-    <% current_user.events.each do |event| %>
+    <% current_user.created_events.each do |event| %>
       <div class="card">
         <h4><%= event.name %></h4>
         <p>Date: <%= event.date %></p>
